@@ -29,7 +29,7 @@ public class CreateTab extends Activity {
 
 
                 try {
-                    new CreateNewArtikel().execute(
+                    new CreateNewArtikel(CreateTab.this).execute(
                             et_article_name.getText().toString(),
                             et_value.getText().toString(),
                             et_unit.getText().toString()

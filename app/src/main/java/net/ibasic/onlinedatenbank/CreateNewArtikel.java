@@ -1,5 +1,7 @@
 package net.ibasic.onlinedatenbank;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -11,12 +13,24 @@ import java.util.List;
 /**
  * Erstellt von Max am 21.05.2015.
  */
-public class CreateNewArtikel  extends AsyncTask<String, String, String> {
-
+public class CreateNewArtikel  extends AsyncTask<String, Integer, Integer> {
+    private Context mContext;
+    public CreateNewArtikel (Context context){
+        mContext = context;
+    }
     HTTPClient httpClient = new HTTPClient();
+    ProgressDialog dialog;
 
+    @Override
+    protected void onPreExecute() {
+        // Setup Progress Dialog
+        dialog = new ProgressDialog(mContext);
+        dialog.setMax(100);
+        dialog.setMessage("Syncing...");
+        dialog.show();
+    }
 
-    public String doInBackground(String...rows){
+    public Integer doInBackground(String... rows){
 
         // Parameter für Http-Reqeust erstellen
         List<NameValuePair> params = new ArrayList<>();
@@ -26,6 +40,21 @@ public class CreateNewArtikel  extends AsyncTask<String, String, String> {
 
         // Http-POST Request an das PHP-Script
         httpClient.makeHttpRequest("http://ibasic.hol.es/phpscripts/create_artikel.php", "POST", params);
-        return null;
+        return 1;
+    }
+
+
+    protected void onProgressUpdate(Integer... values) {
+        // Increment Progress Dialog with the Update
+        // from the doInBackgroundMethod
+        dialog.incrementProgressBy(values[0]);
+    }
+
+
+    protected void onPostExecute(Integer result) {
+        System.out.println("postExcecute");
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }
