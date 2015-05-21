@@ -25,7 +25,7 @@ public class CreateNewArtikel  extends AsyncTask<String, String, String> {
         params.add(new BasicNameValuePair("einheit", rows[2]));
 
         // Http-POST Request an das PHP-Script
-        httpClient.makeHttpRequest("http://www.itubegamer.bplaced.net/artikel/create_artikel.php", "POST", params);
+        httpClient.makeHttpRequest("http://ibasic.hol.es/phpscripts/create_artikel.php", "POST", params);
         return null;
     }
 }
